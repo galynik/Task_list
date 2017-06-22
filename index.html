@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/key.css">
+	<style>
+		body,
+		table {
+			background: silver;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container" ng-controller="mainCtrl as main">
+		<div class="page-header" class= "text-center">
+			<h1>Plan your day!</h1>
+			<h3>User: {{main.userName}}. Count of task - {{main.userTasks.length}}.</h3> </div>
+		<div class="panel">
+			<div class="input-group">
+				<div class="form-group has-success">
+					<input type="text" class="form-control" placeholder="Add your task..." ng-model="newTask" required></div> <span class="input-group-btn"> 
+                    <input type="button" value="Add" class="btn btn-success" ng-click="main.addTask(newTask)">
+                </span> </div>
+			<table class="table table-hover">
+				<thead>
+					<th>Deleting</th>
+					<th>Task</th>
+					<th>Check</th>
+					<th>DONE/IN PROGRESS</th>
+					<th>Edit</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="key in main.userTasks track by $index">
+						<td>
+							<input type="button" value="Delete" class="btn btn-danger" ng-click="main.delTask($index)"> </td>
+						<td>{{key.name}}</td>
+						<td>
+							<input type="checkbox" ng-model="key.done"> </td>
+						<td> <span class="done-{{key.done}}" ng-hide="key.done"> In Progress</span> <span class="done-{{key.done}}" ng-show="key.done">Done</span> </td>
+						<td>
+							<input type="button" value="Edit" class="btn btn-info" ng-click="main.showEdit($index)"> </td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div ng-hide="main.canEdit">
+				<input class="col-lg-offset-8" size="30" type="text"  placeholder="Enter your task" ng-model="main.editValue" >
+				<input type="button" value="Save" class="btn btn-success" ng-click="main.editTask(main.editValue)"></div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<script src="app/services/taskService.js"></script>
+	<script src="app/controllers/mainCtrl.js"></script>
+	<script src="app/app.js"></script>
+</body>
+
+</html>
